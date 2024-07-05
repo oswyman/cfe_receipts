@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Datos del Recibo</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        .table-container {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 50px;
+        }
+        .table th, .table td {
+            vertical-align: middle;
+        }
+        .download-button {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="mb-4">Datos del Recibo</h1>
+        {% if datos.error %}
+            <div class="alert alert-danger">{{ datos.error }}</div>
+        {% else %}
+            <a href="{% url 'descargar_excel' %}" class="btn btn-primary download-button">Descargar Excel</a>
+            <div class="table-container">
+                <h2>Datos del Cliente</h2>
+                <table class="table table-bordered">
+                    <tbody>
+                        {% for key, value in datos.DATOS_DEL_CLIENTE.items %}
+                            <tr>
+                                <th>{{ key }}</th>
+                                <td>{{ value }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="table-container">
+                <h2>Datos de Lectura</h2>
+                <table class="table table-bordered">
+                    <tbody>
+                        {% for key, value in datos.DATOS_DE_LECTURA.items %}
+                            <tr>
+                                <th>{{ key }}</th>
+                                <td>{{ value }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="table-container">
+                <h2>Costos de la Energía en el Mercado Eléctrico Mayorista</h2>
+                <table class="table table-bordered">
+                    <tbody>
+                        {% for key, value in datos.COSTOS_DE_LA_ENERGÍA_EN_EL_MERCADO_ELECTRICO_MAYORISTA.items %}
+                            <tr>
+                                <th>{{ key }}</th>
+                                <td>{{ value }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="table-container">
+                <h2>Desglose del Importe a Pagar</h2>
+                <table class="table table-bordered">
+                    <tbody>
+                        {% for key, value in datos.DESGLOSE_DEL_IMPORTE_A_PAGAR.items %}
+                            <tr>
+                                <th>{{ key }}</th>
+                                <td>{{ value }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="table-container">
+                <h2>Tabla de Consumo Histórico</h2>
+                <table class="table table-bordered">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>PERIODO</th>
+                            <th>KWH</th>
+                            <th>IMPORTE</th>
+                            <th>PAGOS</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in datos.TABLA_CONSUMO_HISTORICO %}
+                            <tr>
+                                <td>{{ item.PERIODO }}</td>
+                                <td>{{ item.KWH }}</td>
+                                <td>{{ item.IMPORTE }}</td>
+                                <td>{{ item.PAGOS }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>
