@@ -1,0 +1,7 @@
+Django>=3.2,<4.0
+gunicorn
+pdfplumber
+openai
+python-dotenv
+pandas
+openpyxl
