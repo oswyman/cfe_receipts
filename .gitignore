@@ -8,3 +8,6 @@ db.sqlite3
 
 # Environment variables
 .env
+
+# Media uploads
+media/

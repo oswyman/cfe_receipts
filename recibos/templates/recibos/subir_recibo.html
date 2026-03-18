@@ -1,37 +1,55 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
-    <title>Subir Recibo de Luz</title>
+    <meta charset="UTF-8">
+    <title>Subir Recibos CFE</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
-        body {
-            background-color: #f8f9fa;
-        }
-        .container {
-            margin-top: 50px;
-        }
+        body { background-color: #f8f9fa; }
+        .container { margin-top: 50px; max-width: 600px; }
         .form-container {
             background: white;
             padding: 30px;
             border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
         }
-        .btn-primary {
-            background-color: #007bff;
-            border-color: #007bff;
-        }
+        #spinner { display: none; }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="form-container">
-            <h1 class="mb-4">Subir Recibo de Luz</h1>
-            <form method="post" enctype="multipart/form-data">
+            <h1 class="mb-2">Recibos CFE</h1>
+            <p class="text-muted mb-4">Sube uno o varios recibos en PDF para extraer sus datos automáticamente.</p>
+
+            <form method="post" enctype="multipart/form-data" id="upload-form">
                 {% csrf_token %}
-                {{ form.as_p }}
-                <button type="submit" class="btn btn-primary">Subir</button>
+                <div class="form-group">
+                    <label for="{{ form.archivos.id_for_label }}"><strong>{{ form.archivos.label }}</strong></label>
+                    {{ form.archivos }}
+                    {% if form.archivos.errors %}
+                        <div class="text-danger mt-1">{{ form.archivos.errors }}</div>
+                    {% endif %}
+                    <small class="form-text text-muted">Formatos aceptados: PDF. Tamaño máximo: 20 MB por archivo.</small>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block" id="submit-btn">
+                    Analizar recibo(s)
+                </button>
             </form>
+
+            <div id="spinner" class="text-center mt-4">
+                <div class="spinner-border text-primary" role="status"></div>
+                <p class="mt-2 text-muted">Analizando con IA… esto puede tardar unos segundos por archivo.</p>
+            </div>
         </div>
     </div>
+
+    <script>
+        document.getElementById('upload-form').addEventListener('submit', function () {
+            document.getElementById('submit-btn').disabled = true;
+            document.getElementById('submit-btn').textContent = 'Procesando…';
+            document.getElementById('spinner').style.display = 'block';
+        });
+    </script>
 </body>
 </html>

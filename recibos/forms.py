@@ -1,7 +1,8 @@
 from django import forms
-from .models import Recibo
 
-class ReciboForm(forms.ModelForm):
-    class Meta:
-        model = Recibo
-        fields = ['archivo']
+
+class RecibosForm(forms.Form):
+    archivos = forms.FileField(
+        widget=forms.ClearableFileInput(attrs={'multiple': True, 'accept': '.pdf'}),
+        label='Recibos PDF (puedes seleccionar varios)',
+    )
